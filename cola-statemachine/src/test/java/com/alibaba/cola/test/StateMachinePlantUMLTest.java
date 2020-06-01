@@ -93,60 +93,60 @@ public class StateMachinePlantUMLTest {
         StateMachineBuilder<PriceAdjustmentTaskStatusEnum, PriceAdjustmentTaskEventEnum, StateMachineTest.Context> builder = StateMachineBuilderFactory.create();
 
         builder.externalTransition()
-                .from(None)
-                .to(Supplier_Processing)
-                .on(Create)
-                .when(checkCondition())
+                .source(None)
+                .target(Supplier_Processing)
+                .event(Create)
+                .guard(checkCondition())
                 .perform(doAction());
 
         // 商家调价
         Stream.of(Supplier_Processing, Supplier_Manager_Processing, Price_Manager_Processing)
                 .forEach(status ->
                         builder.externalTransition()
-                                .from(status)
-                                .to(Closed)
-                                .on(Supplier_Agree)
-                                .when(checkCondition())
+                                .source(status)
+                                .target(Closed)
+                                .event(Supplier_Agree)
+                                .guard(checkCondition())
                                 .perform(doAction())
                 );
 
         // 商家 -上升至-> 控商小二
         builder.externalTransition()
-                .from(Supplier_Processing)
-                .to(Supplier_Manager_Processing)
-                .on(Supplier_Reject)
-                .when(checkCondition())
+                .source(Supplier_Processing)
+                .target(Supplier_Manager_Processing)
+                .event(Supplier_Reject)
+                .guard(checkCondition())
                 .perform(doAction());
 
         builder.externalTransition()
-                .from(Supplier_Processing)
-                .to(Supplier_Manager_Processing)
-                .on(Supplier_Timeout)
-                .when(checkCondition())
+                .source(Supplier_Processing)
+                .target(Supplier_Manager_Processing)
+                .event(Supplier_Timeout)
+                .guard(checkCondition())
                 .perform(doAction());
 
         // 申请申请高于P0售卖
         builder.externalTransition()
-                .from(Supplier_Manager_Processing)
-                .to(Price_Manager_Processing)
-                .on(Apply_Over_P0_Sell)
-                .when(checkCondition())
+                .source(Supplier_Manager_Processing)
+                .target(Price_Manager_Processing)
+                .event(Apply_Over_P0_Sell)
+                .guard(checkCondition())
                 .perform(doAction());
 
         // 同意高于P0价售卖
         builder.externalTransition()
-                .from(Price_Manager_Processing)
-                .to(Closed)
-                .on(Agree_Over_P0_Sell)
-                .when(checkCondition())
+                .source(Price_Manager_Processing)
+                .target(Closed)
+                .event(Agree_Over_P0_Sell)
+                .guard(checkCondition())
                 .perform(doAction());
 
         // 拒绝高于P0价售卖
         builder.externalTransition()
-                .from(Price_Manager_Processing)
-                .to(Supplier_Manager_Processing)
-                .on(Reject_Over_P0_Sell)
-                .when(checkCondition())
+                .source(Price_Manager_Processing)
+                .target(Supplier_Manager_Processing)
+                .event(Reject_Over_P0_Sell)
+                .guard(checkCondition())
                 .perform(doAction());
 
         // 普通字段更新事件
@@ -154,8 +154,8 @@ public class StateMachinePlantUMLTest {
                 .forEach(status -> builder
                         .internalTransition()
                         .within(status)
-                        .on(Normal_Update)
-                        .when(checkCondition())
+                        .event(Normal_Update)
+                        .guard(checkCondition())
                         .perform(doAction())
                 );
 
@@ -163,9 +163,9 @@ public class StateMachinePlantUMLTest {
         Stream.of(P0_Changed, Page_Price_changed)
                 .forEach(event -> builder.externalTransitions()
                         .fromAmong(Supplier_Processing, Supplier_Manager_Processing, Price_Manager_Processing)
-                        .to(Closed)
-                        .on(event)
-                        .when(checkCondition())
+                        .target(Closed)
+                        .event(event)
+                        .guard(checkCondition())
                         .perform(doAction()));
 
         StateMachine stateMachine = builder.build("AdjustPriceTask");
@@ -179,7 +179,7 @@ public class StateMachinePlantUMLTest {
 
     private Action<PriceAdjustmentTaskStatusEnum, PriceAdjustmentTaskEventEnum, StateMachineTest.Context> doAction() {
         return (from, to, event, ctx)->{
-            System.out.println(ctx.operator+" is operating "+ctx.entityId+" from:"+from+" to:"+to+" on:"+event);
+            System.out.println(ctx.operator+" is operating "+ctx.entityId+" source:"+from+" target:"+to+" event:"+event);
         };
     }
 }

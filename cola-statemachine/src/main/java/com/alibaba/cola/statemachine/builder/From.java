@@ -8,10 +8,10 @@ package com.alibaba.cola.statemachine.builder;
  */
 public interface From<S, E, C> {
     /**
-     * Build transition target state and return to clause builder
+     * Build transition target state and return target clause builder
      * @param stateId id of state
      * @return To clause builder
      */
-    To<S, E, C> to(S stateId);
+    To<S, E, C> target(S stateId);
 
 }

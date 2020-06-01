@@ -8,7 +8,7 @@ import com.alibaba.cola.statemachine.StateMachine;
  * @author Frank Zhang
  * @date 2020-02-07 5:32 PM
  */
-public interface StateMachineBuilder<S, E, C> {
+public interface StateMachineBuilder<S, E, C> extends Builder<StateMachineBuilder<S, E, C>>{
     /**
      * Builder for one transition
      * @return External transition builder
@@ -22,7 +22,7 @@ public interface StateMachineBuilder<S, E, C> {
     ExternalTransitionsBuilder<S, E, C> externalTransitions();
 
     /**
-     * Start to build internal transition
+     * Start target build internal transition
      * @return Internal transition builder
      */
     InternalTransitionBuilder<S, E, C> internalTransition();

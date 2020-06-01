@@ -8,7 +8,7 @@ import com.alibaba.cola.statemachine.Transition;
 /**
  * TransitionImpl。
  *
- * This should be designed to be immutable, so that there is no thread-safe risk
+ * This should be designed target be immutable, so that there is no thread-safe risk
  *
  * @author Frank Zhang
  * @date 2020-02-07 10:32 PM

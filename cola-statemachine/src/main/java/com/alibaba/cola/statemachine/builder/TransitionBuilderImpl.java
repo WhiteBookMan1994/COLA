@@ -27,19 +27,23 @@ class TransitionBuilderImpl<S,E,C> implements ExternalTransitionBuilder<S,E,C>, 
 
     final TransitionType transitionType;
 
-    public TransitionBuilderImpl(Map<S, State<S, E, C>> stateMap, TransitionType transitionType) {
+    final StateMachineBuilder<S,E,C> stateMachineBuilder;
+
+    public TransitionBuilderImpl(Map<S, State<S, E, C>> stateMap, TransitionType transitionType,
+                                 StateMachineBuilder<S,E,C> stateMachineBuilder) {
         this.stateMap = stateMap;
         this.transitionType = transitionType;
+        this.stateMachineBuilder = stateMachineBuilder;
     }
 
     @Override
-    public From<S, E, C> from(S stateId) {
+    public From<S, E, C> source(S stateId) {
         source = StateHelper.getState(stateMap, stateId);
         return this;
     }
 
     @Override
-    public To<S, E, C> to(S stateId) {
+    public To<S, E, C> target(S stateId) {
         target = StateHelper.getState(stateMap, stateId);
         return this;
     }
@@ -51,21 +55,26 @@ class TransitionBuilderImpl<S,E,C> implements ExternalTransitionBuilder<S,E,C>, 
     }
 
     @Override
-    public When<S, E, C> when(Condition<C> condition) {
+    public When<S, E, C> guard(Condition<C> condition) {
         transition.setCondition(condition);
         return this;
     }
 
     @Override
-    public On<S, E, C> on(E event) {
+    public On<S, E, C> event(E event) {
         transition = source.addTransition(event, target, transitionType);
         return this;
     }
 
     @Override
-    public void perform(Action<S, E, C> action) {
+    public StateMachineBuilder<S, E, C> perform(Action<S, E, C> action) {
         transition.setAction(action);
+        return this.stateMachineBuilder;
     }
 
 
+    @Override
+    public StateMachineBuilder<S, E, C> and() {
+        return this.stateMachineBuilder;
+    }
 }

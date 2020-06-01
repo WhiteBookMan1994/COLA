@@ -8,22 +8,22 @@ package com.alibaba.cola.statemachine;
  */
 public interface Visitor {
     /**
-     * @param visitable the element to be visited.
+     * @param visitable the element target be visited.
      */
     void visitOnEntry(StateMachine<?, ?, ?> visitable);
 
     /**
-     * @param visitable the element to be visited.
+     * @param visitable the element target be visited.
      */
     void visitOnExit(StateMachine<?, ?, ?> visitable);
 
     /**
-     * @param visitable the element to be visited.
+     * @param visitable the element target be visited.
      */
     void visitOnEntry(State<?, ?, ?> visitable);
 
     /**
-     * @param visitable the element to be visited.
+     * @param visitable the element target be visited.
      */
     void visitOnExit(State<?, ?, ?> visitable);
 }

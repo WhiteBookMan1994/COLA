@@ -18,24 +18,24 @@ import java.util.concurrent.ConcurrentHashMap;
 public class StateMachineBuilderImpl<S, E, C> implements StateMachineBuilder<S, E, C> {
 
     /**
-     * StateMap is the same with stateMachine, as the core of state machine is holding reference to states.
+     * StateMap is the same with stateMachine, as the core of state machine is holding reference target states.
      */
     private final Map<S, State< S, E, C>> stateMap = new ConcurrentHashMap<>();
     private final StateMachineImpl<S, E, C> stateMachine = new StateMachineImpl<>(stateMap);
 
     @Override
     public ExternalTransitionBuilder<S, E, C> externalTransition() {
-        return new TransitionBuilderImpl<>(stateMap, TransitionType.EXTERNAL);
+        return new TransitionBuilderImpl<>(stateMap, TransitionType.EXTERNAL, this);
     }
 
     @Override
     public ExternalTransitionsBuilder<S, E, C> externalTransitions() {
-        return new TransitionsBuilderImpl<>(stateMap, TransitionType.EXTERNAL);
+        return new TransitionsBuilderImpl<>(stateMap, TransitionType.EXTERNAL, this);
     }
 
     @Override
     public InternalTransitionBuilder<S, E, C> internalTransition() {
-        return new TransitionBuilderImpl<>(stateMap, TransitionType.INTERNAL);
+        return new TransitionBuilderImpl<>(stateMap, TransitionType.INTERNAL, this);
     }
 
     @Override
@@ -46,4 +46,8 @@ public class StateMachineBuilderImpl<S, E, C> implements StateMachineBuilder<S, 
         return stateMachine;
     }
 
+    @Override
+    public StateMachineBuilder<S, E, C> and() {
+        return this;
+    }
 }

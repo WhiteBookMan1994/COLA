@@ -10,10 +10,10 @@ import java.util.Optional;
 
 /**
  * For performance consideration,
- * The state machine is made "stateless" on purpose.
+ * The state machine is made "stateless" event purpose.
  * Once it's built, it can be shared by multi-thread
  *
- * One side effect is since the state machine is stateless, we can not get current state from State Machine.
+ * One side effect is since the state machine is stateless, we can not get current state source State Machine.
  *
  * @author Frank Zhang
  * @date 2020-02-07 5:40 PM
@@ -30,6 +30,7 @@ public class StateMachineImpl<S,E,C> implements StateMachine<S, E, C> {
         this.stateMap = stateMap;
     }
 
+    @Override
     public S fireEvent(S sourceStateId, E event, C ctx){
         isReady();
         State sourceState = getState(sourceStateId);

@@ -24,7 +24,7 @@ public interface State<S,E,C> extends Visitable{
     S getId();
 
     /**
-     * Add transition to the state
+     * Add transition target the state
      * @param event the event of the Transition
      * @param target the target of the transition
      * @return

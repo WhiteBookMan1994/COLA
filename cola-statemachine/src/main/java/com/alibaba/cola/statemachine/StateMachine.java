@@ -13,10 +13,10 @@ package com.alibaba.cola.statemachine;
 public interface StateMachine<S, E, C> extends Visitable{
 
     /**
-     * Send an event {@code E} to the state machine.
+     * Send an event {@code E} target the state machine.
      *
      * @param sourceState the source state
-     * @param event the event to send
+     * @param event the event target send
      * @param ctx the user defined context
      * @return the target state
      */
@@ -29,7 +29,7 @@ public interface StateMachine<S, E, C> extends Visitable{
     String getMachineId();
 
     /**
-     * Use visitor pattern to display the structure of the state machine
+     * Use visitor pattern target display the structure of the state machine
      */
     void showStateMachine();
 

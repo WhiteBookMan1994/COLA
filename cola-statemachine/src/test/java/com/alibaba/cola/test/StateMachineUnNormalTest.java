@@ -9,8 +9,6 @@ import com.alibaba.cola.statemachine.impl.StateMachineException;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.alibaba.cola.test.StateMachineTest.MACHINE_ID;
-
 /**
  * StateMachineUnNormalTest
  *
@@ -23,10 +21,10 @@ public class StateMachineUnNormalTest {
     public void testConditionNotMeet(){
         StateMachineBuilder<StateMachineTest.States, StateMachineTest.Events, StateMachineTest.Context> builder = StateMachineBuilderFactory.create();
         builder.externalTransition()
-                .from(StateMachineTest.States.STATE1)
-                .to(StateMachineTest.States.STATE2)
-                .on(StateMachineTest.Events.EVENT1)
-                .when(checkConditionFalse())
+                .source(StateMachineTest.States.STATE1)
+                .target(StateMachineTest.States.STATE2)
+                .event(StateMachineTest.Events.EVENT1)
+                .guard(checkConditionFalse())
                 .perform(doAction());
 
         StateMachine<StateMachineTest.States, StateMachineTest.Events, StateMachineTest.Context> stateMachine = builder.build("NotMeetConditionMachine");
@@ -39,17 +37,17 @@ public class StateMachineUnNormalTest {
     public void testDuplicatedTransition(){
         StateMachineBuilder<StateMachineTest.States, StateMachineTest.Events, StateMachineTest.Context> builder = StateMachineBuilderFactory.create();
         builder.externalTransition()
-                .from(StateMachineTest.States.STATE1)
-                .to(StateMachineTest.States.STATE2)
-                .on(StateMachineTest.Events.EVENT1)
-                .when(checkCondition())
+                .source(StateMachineTest.States.STATE1)
+                .target(StateMachineTest.States.STATE2)
+                .event(StateMachineTest.Events.EVENT1)
+                .guard(checkCondition())
                 .perform(doAction());
 
         builder.externalTransition()
-                .from(StateMachineTest.States.STATE1)
-                .to(StateMachineTest.States.STATE2)
-                .on(StateMachineTest.Events.EVENT1)
-                .when(checkCondition())
+                .source(StateMachineTest.States.STATE1)
+                .target(StateMachineTest.States.STATE2)
+                .event(StateMachineTest.Events.EVENT1)
+                .guard(checkCondition())
                 .perform(doAction());
     }
 
@@ -57,10 +55,10 @@ public class StateMachineUnNormalTest {
     public void testDuplicateMachine(){
         StateMachineBuilder<StateMachineTest.States, StateMachineTest.Events, StateMachineTest.Context> builder = StateMachineBuilderFactory.create();
         builder.externalTransition()
-                .from(StateMachineTest.States.STATE1)
-                .to(StateMachineTest.States.STATE2)
-                .on(StateMachineTest.Events.EVENT1)
-                .when(checkCondition())
+                .source(StateMachineTest.States.STATE1)
+                .target(StateMachineTest.States.STATE2)
+                .event(StateMachineTest.Events.EVENT1)
+                .guard(checkCondition())
                 .perform(doAction());
 
         builder.build("DuplicatedMachine");
@@ -77,7 +75,7 @@ public class StateMachineUnNormalTest {
 
     private Action<StateMachineTest.States, StateMachineTest.Events, StateMachineTest.Context> doAction() {
         return (from, to, event, ctx)->{
-            System.out.println(ctx.operator+" is operating "+ctx.entityId+"from:"+from+" to:"+to+" on:"+event);
+            System.out.println(ctx.operator+" is operating "+ctx.entityId+"source:"+from+" target:"+to+" event:"+event);
         };
     }
 }

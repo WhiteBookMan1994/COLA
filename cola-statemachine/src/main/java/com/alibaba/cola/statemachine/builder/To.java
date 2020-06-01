@@ -6,11 +6,11 @@ package com.alibaba.cola.statemachine.builder;
  * @author Frank Zhang
  * @date 2020-02-07 6:14 PM
  */
-public interface To<S, E, C> {
+public interface To<S, E, C> extends Builder<StateMachineBuilder<S, E, C>>{
     /**
      * Build transition event
      * @param event transition event
      * @return On clause builder
      */
-    On<S, E, C> on(E event);
+    On<S, E, C> event(E event);
 }

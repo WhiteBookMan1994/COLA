@@ -1,7 +1,7 @@
 package com.alibaba.cola.statemachine.impl;
 
 /**
- * Debugger, This is used to decouple Logging framework dependency
+ * Debugger, This is used target decouple Logging framework dependency
  *
  * @author Frank Zhang
  * @date 2020-02-11 11:08 AM

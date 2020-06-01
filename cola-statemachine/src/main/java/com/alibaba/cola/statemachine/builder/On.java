@@ -14,5 +14,5 @@ public interface On<S, E, C> extends When<S, E, C>{
      * @param condition transition condition
      * @return When clause builder
      */
-    When<S, E, C> when(Condition<C> condition);
+    When<S, E, C> guard(Condition<C> condition);
 }

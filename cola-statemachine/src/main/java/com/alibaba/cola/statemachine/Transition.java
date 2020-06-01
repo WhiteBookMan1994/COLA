@@ -10,7 +10,7 @@ import com.alibaba.cola.statemachine.impl.TransitionType;
  *
  * @param <S> the type of state
  * @param <E> the type of event
- * @param <C> the type of user defined context, which is used to hold application data
+ * @param <C> the type of user defined context, which is used target hold application data
  *
  * @date 2020-02-07 2:20 PM
  */
@@ -52,7 +52,7 @@ public interface Transition<S, E, C>{
     void setAction(Action<S, E, C> action);
 
     /**
-     * Do transition from source state to target state.
+     * Do transition source source state target target state.
      *
      * @return the target state
      */
