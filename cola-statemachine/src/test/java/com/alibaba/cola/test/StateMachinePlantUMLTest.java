@@ -1,7 +1,7 @@
 package com.alibaba.cola.test;
 
 import com.alibaba.cola.statemachine.Action;
-import com.alibaba.cola.statemachine.Condition;
+import com.alibaba.cola.statemachine.Guard;
 import com.alibaba.cola.statemachine.StateMachine;
 import com.alibaba.cola.statemachine.builder.StateMachineBuilder;
 import com.alibaba.cola.statemachine.builder.StateMachineBuilderFactory;
@@ -173,7 +173,7 @@ public class StateMachinePlantUMLTest {
 
     }
 
-    private Condition<StateMachineTest.Context> checkCondition() {
+    private Guard<StateMachineTest.Context> checkCondition() {
         return (ctx) -> {return true;};
     }
 

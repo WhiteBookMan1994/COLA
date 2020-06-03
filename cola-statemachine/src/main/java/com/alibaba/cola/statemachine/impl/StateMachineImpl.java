@@ -2,7 +2,7 @@ package com.alibaba.cola.statemachine.impl;
 
 import com.alibaba.cola.statemachine.State;
 import com.alibaba.cola.statemachine.StateMachine;
-import com.alibaba.cola.statemachine.Transition;
+import com.alibaba.cola.statemachine.transition.Transition;
 import com.alibaba.cola.statemachine.Visitor;
 
 import java.util.Map;
@@ -30,6 +30,7 @@ public class StateMachineImpl<S,E,C> implements StateMachine<S, E, C> {
         this.stateMap = stateMap;
     }
 
+    @Override
     public S fireEvent(S sourceStateId, E event, C ctx){
         isReady();
         State sourceState = getState(sourceStateId);
@@ -41,7 +42,7 @@ public class StateMachineImpl<S,E,C> implements StateMachine<S, E, C> {
         if(transition.isPresent()){
             return transition.get().transit(ctx);
         }
-        Debugger.debug("There is no Transition for " + event);
+        Debugger.debug("There is no transition for " + event);
         return sourceState;
     }
 

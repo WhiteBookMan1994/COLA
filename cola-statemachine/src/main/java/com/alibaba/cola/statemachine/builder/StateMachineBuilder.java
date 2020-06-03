@@ -27,6 +27,12 @@ public interface StateMachineBuilder<S, E, C> {
      */
     InternalTransitionBuilder<S, E, C> internalTransition();
 
+    /**
+     * Start to build choice transition
+     * @return choice transition builder
+     */
+    ChoiceTransitionBuilder<S, E, C> choiceTransition();
+
     StateMachine<S,E,C> build(String machineId);
 
 }

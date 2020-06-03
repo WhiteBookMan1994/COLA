@@ -1,23 +1,23 @@
 package com.alibaba.cola.statemachine.builder;
 
 import com.alibaba.cola.statemachine.Action;
-import com.alibaba.cola.statemachine.Condition;
+import com.alibaba.cola.statemachine.Guard;
 import com.alibaba.cola.statemachine.State;
-import com.alibaba.cola.statemachine.Transition;
+import com.alibaba.cola.statemachine.transition.Transition;
 import com.alibaba.cola.statemachine.impl.StateHelper;
-import com.alibaba.cola.statemachine.impl.TransitionType;
+import com.alibaba.cola.statemachine.transition.TransitionType;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * TransitionsBuilderImpl
+ * ExternalTransitionsBuilderImpl
  *
  * @author Frank Zhang
  * @date 2020-02-08 7:43 PM
  */
-public class TransitionsBuilderImpl<S,E,C> extends TransitionBuilderImpl<S,E,C> implements ExternalTransitionsBuilder<S,E,C> {
+public class ExternalTransitionsBuilderImpl<S,E,C> extends ExternalTransitionBuilderImpl<S,E,C> implements ExternalTransitionsBuilder<S,E,C> {
     /**
      * This is for fromAmong where multiple sources can be configured to point to one target
      */
@@ -25,7 +25,7 @@ public class TransitionsBuilderImpl<S,E,C> extends TransitionBuilderImpl<S,E,C> 
 
     private List<Transition<S, E, C>> transitions = new ArrayList<>();
 
-    public TransitionsBuilderImpl(Map<S, State<S, E, C>> stateMap, TransitionType transitionType) {
+    public ExternalTransitionsBuilderImpl(Map<S, State<S, E, C>> stateMap, TransitionType transitionType) {
         super(stateMap, transitionType);
     }
 
@@ -47,9 +47,9 @@ public class TransitionsBuilderImpl<S,E,C> extends TransitionBuilderImpl<S,E,C> 
     }
 
     @Override
-    public When<S, E, C> when(Condition<C> condition) {
+    public When<S, E, C> when(Guard<C> guard) {
         for(Transition transition : transitions){
-            transition.setCondition(condition);
+            transition.setGuard(guard);
         }
         return this;
     }

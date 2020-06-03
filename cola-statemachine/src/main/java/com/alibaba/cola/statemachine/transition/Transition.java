@@ -1,9 +1,10 @@
-package com.alibaba.cola.statemachine;
+package com.alibaba.cola.statemachine.transition;
 
-import com.alibaba.cola.statemachine.impl.TransitionType;
+import com.alibaba.cola.statemachine.Action;
+import com.alibaba.cola.statemachine.State;
 
 /**
- * {@code Transition} is something what a state machine associates with a state
+ * {@code transition} is something what a state machine associates with a state
  * changes.
  *
  * @author Frank Zhang
@@ -24,28 +25,7 @@ public interface Transition<S, E, C>{
 
     void setSource(State<S, E, C> state);
 
-    E getEvent();
-
-    void setEvent(E event);
-
     void setType(TransitionType type);
-    /**
-     * Gets the target state of this transition.
-     *
-     * @return the target state
-     */
-    State<S,E,C> getTarget();
-
-    void setTarget(State<S, E, C> state);
-
-    /**
-     * Gets the guard of this transition.
-     *
-     * @return the guard
-     */
-    Condition<C> getCondition();
-
-    void setCondition(Condition<C> condition);
 
     Action<S,E,C> getAction();
 

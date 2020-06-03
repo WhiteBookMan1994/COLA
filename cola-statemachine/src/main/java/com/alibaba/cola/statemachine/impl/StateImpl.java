@@ -1,8 +1,10 @@
 package com.alibaba.cola.statemachine.impl;
 
 import com.alibaba.cola.statemachine.State;
-import com.alibaba.cola.statemachine.Transition;
+import com.alibaba.cola.statemachine.transition.ExternalTransitionImpl;
+import com.alibaba.cola.statemachine.transition.Transition;
 import com.alibaba.cola.statemachine.Visitor;
+import com.alibaba.cola.statemachine.transition.TransitionType;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -24,7 +26,7 @@ public class StateImpl<S,E,C> implements State<S,E,C> {
 
     @Override
     public Transition<S, E, C> addTransition(E event, State<S,E,C> target, TransitionType transitionType) {
-        Transition<S, E, C> newTransition = new TransitionImpl<>();
+        Transition<S, E, C> newTransition = new ExternalTransitionImpl<>();
         newTransition.setSource(this);
         newTransition.setTarget(target);
         newTransition.setEvent(event);

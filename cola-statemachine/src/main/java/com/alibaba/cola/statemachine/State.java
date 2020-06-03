@@ -1,6 +1,7 @@
 package com.alibaba.cola.statemachine;
 
-import com.alibaba.cola.statemachine.impl.TransitionType;
+import com.alibaba.cola.statemachine.transition.Transition;
+import com.alibaba.cola.statemachine.transition.TransitionType;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -25,7 +26,7 @@ public interface State<S,E,C> extends Visitable{
 
     /**
      * Add transition to the state
-     * @param event the event of the Transition
+     * @param event the event of the transition
      * @param target the target of the transition
      * @return
      */

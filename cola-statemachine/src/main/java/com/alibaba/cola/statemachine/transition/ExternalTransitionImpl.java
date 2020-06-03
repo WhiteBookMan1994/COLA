@@ -1,19 +1,22 @@
-package com.alibaba.cola.statemachine.impl;
+package com.alibaba.cola.statemachine.transition;
 
 import com.alibaba.cola.statemachine.Action;
-import com.alibaba.cola.statemachine.Condition;
+import com.alibaba.cola.statemachine.Guard;
 import com.alibaba.cola.statemachine.State;
-import com.alibaba.cola.statemachine.Transition;
+import com.alibaba.cola.statemachine.impl.Debugger;
+import com.alibaba.cola.statemachine.impl.StateMachineException;
+import com.alibaba.cola.statemachine.transition.ExternalTransition;
+import com.alibaba.cola.statemachine.transition.TransitionType;
 
 /**
- * TransitionImpl。
+ * ExternalTransitionImpl。
  *
  * This should be designed to be immutable, so that there is no thread-safe risk
  *
  * @author Frank Zhang
  * @date 2020-02-07 10:32 PM
  */
-public class TransitionImpl<S,E,C> implements Transition<S,E,C> {
+public class ExternalTransitionImpl<S,E,C> implements ExternalTransition<S,E,C> {
 
     private State<S, E, C> source;
 
@@ -21,7 +24,7 @@ public class TransitionImpl<S,E,C> implements Transition<S,E,C> {
 
     private E event;
 
-    private Condition<C> condition;
+    private Guard<C> guard;
 
     private Action<S,E,C> action;
 
@@ -63,13 +66,13 @@ public class TransitionImpl<S,E,C> implements Transition<S,E,C> {
     }
 
     @Override
-    public Condition<C> getCondition() {
-        return this.condition;
+    public Guard<C> getGuard() {
+        return this.guard;
     }
 
     @Override
-    public void setCondition(Condition<C> condition) {
-        this.condition = condition;
+    public void setGuard(Guard<C> guard) {
+        this.guard = guard;
     }
 
     @Override
@@ -86,14 +89,14 @@ public class TransitionImpl<S,E,C> implements Transition<S,E,C> {
     public State<S, E, C> transit(C ctx) {
         Debugger.debug("Do transition: "+this);
         this.verify();
-        if(condition == null || condition.isSatisfied(ctx)){
+        if(guard == null || guard.isSatisfied(ctx)){
             if(action != null){
                 action.execute(source.getId(), target.getId(), event, ctx);
             }
             return target;
         }
 
-        Debugger.debug("Condition is not satisfied, stay at the "+source+" state ");
+        Debugger.debug("Guard is not satisfied, stay at the "+source+" state ");
         return source;
     }
 
@@ -104,8 +107,8 @@ public class TransitionImpl<S,E,C> implements Transition<S,E,C> {
 
     @Override
     public boolean equals(Object anObject){
-        if(anObject instanceof Transition){
-            Transition other = (Transition)anObject;
+        if(anObject instanceof ExternalTransition){
+            ExternalTransition other = (ExternalTransition)anObject;
             if(this.event.equals(other.getEvent())
                     && this.source.equals(other.getSource())
                     && this.target.equals(other.getTarget())){

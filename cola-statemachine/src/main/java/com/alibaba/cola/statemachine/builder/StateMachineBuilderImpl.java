@@ -4,7 +4,7 @@ import com.alibaba.cola.statemachine.State;
 import com.alibaba.cola.statemachine.StateMachine;
 import com.alibaba.cola.statemachine.StateMachineFactory;
 import com.alibaba.cola.statemachine.impl.StateMachineImpl;
-import com.alibaba.cola.statemachine.impl.TransitionType;
+import com.alibaba.cola.statemachine.transition.TransitionType;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,17 +25,22 @@ public class StateMachineBuilderImpl<S, E, C> implements StateMachineBuilder<S, 
 
     @Override
     public ExternalTransitionBuilder<S, E, C> externalTransition() {
-        return new TransitionBuilderImpl<>(stateMap, TransitionType.EXTERNAL);
+        return new ExternalTransitionBuilderImpl<>(stateMap, TransitionType.EXTERNAL);
     }
 
     @Override
     public ExternalTransitionsBuilder<S, E, C> externalTransitions() {
-        return new TransitionsBuilderImpl<>(stateMap, TransitionType.EXTERNAL);
+        return new ExternalTransitionsBuilderImpl<>(stateMap, TransitionType.EXTERNAL);
     }
 
     @Override
     public InternalTransitionBuilder<S, E, C> internalTransition() {
-        return new TransitionBuilderImpl<>(stateMap, TransitionType.INTERNAL);
+        return new ExternalTransitionBuilderImpl<>(stateMap, TransitionType.INTERNAL);
+    }
+
+    @Override
+    public ChoiceTransitionBuilder<S, E, C> choiceTransition() {
+        return new DefaultChoiceTransitionBuilder<>(stateMap, TransitionType.CHOICE);
     }
 
     @Override

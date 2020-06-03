@@ -1,6 +1,6 @@
 package com.alibaba.cola.statemachine.builder;
 
-import com.alibaba.cola.statemachine.Condition;
+import com.alibaba.cola.statemachine.Guard;
 
 /**
  * On
@@ -10,9 +10,9 @@ import com.alibaba.cola.statemachine.Condition;
  */
 public interface On<S, E, C> extends When<S, E, C>{
     /**
-     * Add condition for the transition
-     * @param condition transition condition
+     * Add guard for the transition
+     * @param guard transition guard
      * @return When clause builder
      */
-    When<S, E, C> when(Condition<C> condition);
+    When<S, E, C> when(Guard<C> guard);
 }

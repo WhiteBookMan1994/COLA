@@ -2,7 +2,7 @@ package com.alibaba.cola.statemachine.impl;
 
 import com.alibaba.cola.statemachine.State;
 import com.alibaba.cola.statemachine.StateMachine;
-import com.alibaba.cola.statemachine.Transition;
+import com.alibaba.cola.statemachine.transition.Transition;
 import com.alibaba.cola.statemachine.Visitor;
 
 /**
@@ -26,7 +26,7 @@ public class SysOutVisitor implements Visitor {
     public void visitOnEntry(State<?, ?, ?> state) {
         System.out.println("State:"+state.getId());
         for(Transition transition: state.getTransitions()){
-            System.out.println("    Transition:"+transition);
+            System.out.println("    transition:"+transition);
         }
 
     }

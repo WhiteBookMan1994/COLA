@@ -1,5 +1,7 @@
 package com.alibaba.cola.statemachine;
 
+import com.alibaba.cola.statemachine.transition.Transition;
+
 /**
  * StateContext
  *

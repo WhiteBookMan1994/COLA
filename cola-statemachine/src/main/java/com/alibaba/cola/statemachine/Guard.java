@@ -1,14 +1,15 @@
 package com.alibaba.cola.statemachine;
 
 /**
- * Condition
+ * Guard
  *
  * @author Frank Zhang
  * @date 2020-02-07 2:50 PM
  */
-public interface Condition<C> {
+public interface Guard<C> {
 
     /**
+     * Evaluate a guard condition
      * @param context context object
      * @return whether the context satisfied current condition
      */
