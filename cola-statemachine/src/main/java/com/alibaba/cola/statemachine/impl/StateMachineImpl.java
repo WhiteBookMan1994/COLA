@@ -50,7 +50,7 @@ public class StateMachineImpl<S,E,C> implements StateMachine<S, E, C> {
                     if (elseTransition == null && transition.getCondition() == null) {
                         elseTransition = transition;
                     }
-                    if (transition.getCondition().isSatisfied(ctx)) {
+                    else if (transition.getCondition().isSatisfied(ctx)) {
                         return transition.transit(ctx);
                     }
                 }
