@@ -44,22 +44,10 @@ public class StateMachineTest {
                 .when(checkCondition())
                 .perform(doAction());
 
-        builder.externalTransition()
-                .from(States.STATE1)
-                .to(States.STATE3)
-                .on(Events.EVENT1)
-                .when(checkCondition2())
-                .perform(doAction());
-
-        builder.externalTransition()
-                .from(States.STATE1)
-                .to(States.STATE4)
-                .on(Events.EVENT1)
-                .perform(doAction());
 
         StateMachine<States, Events, Context> stateMachine = builder.build(MACHINE_ID);
         States target = stateMachine.fireEvent(States.STATE1, Events.EVENT1, new Context());
-        Assert.assertEquals(States.STATE3, target);
+        Assert.assertEquals(States.STATE2, target);
     }
 
     @Test
@@ -186,7 +174,7 @@ public class StateMachineTest {
 
 
     private Condition<Context> checkCondition() {
-        return (ctx) -> {return ctx.nodeType.equals("1");};
+        return (ctx) -> {return true;};
     }
 
     private Condition<Context> checkCondition2() {
