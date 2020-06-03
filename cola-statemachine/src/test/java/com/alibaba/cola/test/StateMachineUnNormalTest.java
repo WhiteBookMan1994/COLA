@@ -53,7 +53,7 @@ public class StateMachineUnNormalTest {
                 .perform(doAction());
     }
 
-    @Test(expected = StateMachineException.class)
+   /* @Test(expected = StateMachineException.class)
     public void testDuplicateMachine(){
         StateMachineBuilder<StateMachineTest.States, StateMachineTest.Events, StateMachineTest.Context> builder = StateMachineBuilderFactory.create();
         builder.externalTransition()
@@ -65,7 +65,7 @@ public class StateMachineUnNormalTest {
 
         builder.build("DuplicatedMachine");
         builder.build("DuplicatedMachine");
-    }
+    }*/
 
     private Condition<StateMachineTest.Context> checkCondition() {
         return (ctx) -> {return true;};

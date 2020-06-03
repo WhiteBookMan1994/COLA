@@ -82,7 +82,7 @@ public class StateMachineTest {
 
     @Test
     public void testExternalInternalNormal(){
-        StateMachine<States, Events, Context> stateMachine = buildStateMachine("testExternalInternalNormal");
+        StateMachine<States, Events, Context> stateMachine = buildStateMachine("testExternalInternalNormal").get("testExternalInternalNormal");
 
         Context context = new Context();
         States target = stateMachine.fireEvent(States.STATE1, Events.EVENT1, context);
@@ -95,7 +95,7 @@ public class StateMachineTest {
         Assert.assertEquals(States.STATE3, target);
     }
 
-    private StateMachine<States, Events, Context> buildStateMachine(String machineId) {
+    private StateMachineFactory buildStateMachine(String machineId) {
         StateMachineBuilder<States, Events, Context> builder = StateMachineBuilderFactory.create();
         builder.externalTransition()
                 .from(States.STATE1)
@@ -131,20 +131,21 @@ public class StateMachineTest {
                 .when(checkCondition())
                 .perform(doAction());
 
-        builder.build(machineId);
 
-        StateMachine<States, Events, Context> stateMachine = StateMachineFactory.get(machineId);
+        StateMachineFactory factory = new StateMachineFactory();
+        factory.register(builder.build(machineId));
+        StateMachine<States, Events, Context> stateMachine = factory.get(machineId);
         stateMachine.showStateMachine();
-        return stateMachine;
+        return factory;
     }
 
     @Test
     public void testMultiThread(){
-        buildStateMachine("testMultiThread");
+        StateMachineFactory factory = buildStateMachine("testMultiThread");
 
         for(int i=0 ; i<10 ; i++){
             Thread thread = new Thread(()->{
-                StateMachine<States, Events, Context> stateMachine = StateMachineFactory.get("testMultiThread");
+                StateMachine<States, Events, Context> stateMachine = factory.get("testMultiThread");
                 States target = stateMachine.fireEvent(States.STATE1, Events.EVENT1, new Context());
                 Assert.assertEquals(States.STATE2, target);
             });
@@ -154,7 +155,7 @@ public class StateMachineTest {
 
         for(int i=0 ; i<10 ; i++) {
             Thread thread = new Thread(() -> {
-                StateMachine<States, Events, Context> stateMachine = StateMachineFactory.get("testMultiThread");
+                StateMachine<States, Events, Context> stateMachine = factory.get("testMultiThread");
                 States target = stateMachine.fireEvent(States.STATE1, Events.EVENT4, new Context());
                 Assert.assertEquals(States.STATE4, target);
             });
@@ -163,7 +164,7 @@ public class StateMachineTest {
 
         for(int i=0 ; i<10 ; i++) {
             Thread thread = new Thread(() -> {
-                StateMachine<States, Events, Context> stateMachine = StateMachineFactory.get("testMultiThread");
+                StateMachine<States, Events, Context> stateMachine = factory.get("testMultiThread");
                 States target = stateMachine.fireEvent(States.STATE1, Events.EVENT3, new Context());
                 Assert.assertEquals(States.STATE3, target);
             });

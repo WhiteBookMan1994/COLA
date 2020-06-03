@@ -42,7 +42,7 @@ public class StateMachineBuilderImpl<S, E, C> implements StateMachineBuilder<S, 
     public StateMachine<S, E, C> build(String machineId) {
         stateMachine.setMachineId(machineId);
         stateMachine.setReady(true);
-        StateMachineFactory.register(stateMachine);
+        //StateMachineFactory.register(stateMachine);
         return stateMachine;
     }
 
