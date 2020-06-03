@@ -5,8 +5,8 @@ import com.alibaba.cola.statemachine.StateMachine;
 import com.alibaba.cola.statemachine.Transition;
 import com.alibaba.cola.statemachine.Visitor;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * For performance consideration,
@@ -30,6 +30,7 @@ public class StateMachineImpl<S,E,C> implements StateMachine<S, E, C> {
         this.stateMap = stateMap;
     }
 
+    @Override
     public S fireEvent(S sourceStateId, E event, C ctx){
         isReady();
         State sourceState = getState(sourceStateId);
@@ -37,9 +38,24 @@ public class StateMachineImpl<S,E,C> implements StateMachine<S, E, C> {
     }
 
     private State<S, E, C> doTransition(State sourceState, E event, C ctx) {
-        Optional<Transition<S,E,C>> transition = sourceState.getTransition(event);
-        if(transition.isPresent()){
-            return transition.get().transit(ctx);
+        List<Transition<S,E,C>> transitions = sourceState.getTransition(event);
+        if (transitions != null && transitions.size() > 0) {
+            if (transitions.size() == 1) {
+                return transitions.get(0).transit(ctx);
+            }
+            //伪状态choice的情况,if-elseif-else
+            else {
+                Transition<S,E,C> elseTransition = null;
+                for (Transition<S,E,C> transition: transitions) {
+                    if (elseTransition == null && transition.getCondition() == null) {
+                        elseTransition = transition;
+                    }
+                    if (transition.getCondition().isSatisfied(ctx)) {
+                        return transition.transit(ctx);
+                    }
+                }
+                return elseTransition.transit(ctx);
+            }
         }
         Debugger.debug("There is no Transition for " + event);
         return sourceState;
